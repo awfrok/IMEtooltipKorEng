@@ -60,6 +60,8 @@ engUcaseTooltipLabel := "EN"
     ;~ TooltipColorBlackOnWhite()
 ;~ }
 
+; Menu, Tray, NoIcon
+#NoTrayIcon
 
 InitTrayMenu()
 ;StartWatch()
@@ -83,8 +85,11 @@ TooltipColorWhiteOnBlack()
 		send {LCtrl Down}{LShift Down}{LShift Up}{LCtrl Up}{LShift Down}{Space}{LShift Up}
         ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
 	}
-    sleep, 200
-    ToolTip
+    sleep, 100
+    ToolTip ; remove tooltip 
+    ;~ Menu, Tray, Icon
+    ;~ sleep, 1000
+    ;~ Menu, Tray, NoIcon
 ;	FlashedToolTip()
 return
 

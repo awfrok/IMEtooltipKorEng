@@ -1,3 +1,7 @@
+작성: 2021.01.28.
+
+
+
 # 설명
 
 Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환할 때, 날개셋입력기의 초기상태를 한글입력상태로 바꿈.
@@ -77,6 +81,12 @@ https://github.com/selfiens/KorTooltip
 http://www.autohotkey.co.kr/cgi/board.php?bo_table=qna&wr_id=20839
 
 https://iamaman.tistory.com/1805
+
+http://xeliz.iptime.org/xeliz/16
+
+https://blog.naver.com/atlkitol/20020058146
+
+
 
 
 
