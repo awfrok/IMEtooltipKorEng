@@ -75,6 +75,7 @@ https://github.com/selfiens/KorTooltip
 ### 외부
 
 http://www.autohotkey.co.kr/cgi/board.php?bo_table=qna&wr_id=20839
+
 https://iamaman.tistory.com/1805
 
 
