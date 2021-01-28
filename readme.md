@@ -2,7 +2,7 @@
 
 Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환할 때, 날개셋입력기의 초기상태를 한글입력상태로 바꿈.
 
-#### 사용환경과 목표
+### 사용환경과 목표
 
 - MS Windows 10 x64 Eng
 - 윈도우의 기본 영문입력기
@@ -53,7 +53,7 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 
 
-#### {shift}+{space}를 선택한 이유
+### {shift}+{space}를 선택한 이유
 
 필자가 우분투 20.04 와 리눅스민트 20.1에서 uim과 uim-byeoru를 수정해서 본인만의 신세벌식 배열을 사용하는데, uim의 입력 언어 변경 단축키가 {Lshift}+{space}이기도 하고,
 이 단축키를 아주 오래전부터 한글 입력 상태로 가기 위해서 사용하기도 했다.
@@ -65,21 +65,21 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 깃허브 사용법에 아직 익숙하지 않아서 이렇게 기록으로 남긴다.
 
-#### 깃허브(source code)
+### 깃허브(source code)
 
 https://github.com/selfiens/KorTooltip
 (깃허브 사용법을 숙지하면, 여기로부터 fork 하여 branch 를 만들 예정임.)
 
 
 
-#### 외부
+### 외부
 
 http://www.autohotkey.co.kr/cgi/board.php?bo_table=qna&wr_id=20839
 https://iamaman.tistory.com/1805
 
 
 
-#### 날개셋입력기 제작자인 김용묵이 윈도우 IME에 대해서 설명함
+### 날개셋입력기 제작자인 김용묵이 윈도우 IME에 대해서 설명함
 
 https://cosmic.mearie.org/f/ngsdoc/ngsm_ntc_ischeme.htm
 
