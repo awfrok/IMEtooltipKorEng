@@ -73,16 +73,23 @@ TooltipColorWhiteOnBlack()
 <+Space::  
 ;   MsgBox % "Old win id: " old_win_id
     WinGet, active_win_id, ID, A
-    old_win_id := active_win_id
+;    old_win_id := active_win_id
 ;	MsgBox % "active win ID: " active_win_id
 	imeState := ReadImeState(active_win_Id)
 ;	MsgBox % "imeState: " imeState
-	if(imeState = 1) {
+	if(imeState = 1 and oldImeState = 1) { ; if IME is Kor and Kor input mode, change it to English
 		send {LCtrl Down}{LShift Down}{LShift Up}{LCtrl Up}
+        oldImeState := 0 ;store Eng state
         ToolTip, %engUcaseTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY
 	}
-	else {
+    else if(imeState = 0 and oldImeState = 1) { ; IME is Kor and Eng input mode, ie, sovle the problem that sometime Nalgaeset returns Eng input mode in Kor IME
+        send {LShift Down}{Space}{LShift Up}
+        oldImeState := 1 ; stor Kor state
+        ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY
+    }
+	else { ; if IME is English state, change it to Korean and 3 beol input state.
 		send {LCtrl Down}{LShift Down}{LShift Up}{LCtrl Up}{LShift Down}{Space}{LShift Up}
+        oldImeState := 1 ; store Kor state
         ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
 	}
     sleep, 100
