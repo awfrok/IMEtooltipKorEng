@@ -61,7 +61,14 @@ engUcaseTooltipLabel := "EN"
 ;~ }
 
 ; Menu, Tray, NoIcon
-#NoTrayIcon
+; #NoTrayIcon
+
+WinGet, active_win_id, ID, A ; read initial state
+;old_win_id := active_win_id
+;MsgBox % "active win ID: " active_win_id
+imeState := ReadImeState(active_win_Id)
+oldImeState := imeState ; store initial state
+;ToolTip, %engTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
 
 InitTrayMenu()
 ;StartWatch()
@@ -69,11 +76,11 @@ InitTrayMenu()
 TooltipColorWhiteOnBlack()
 ;~ ToolTipColor("Black","White") ; background / foreground
 
-
+ 
 <+Space::  
 ;   MsgBox % "Old win id: " old_win_id
     WinGet, active_win_id, ID, A
-;    old_win_id := active_win_id
+;   old_win_id := active_win_id
 ;	MsgBox % "active win ID: " active_win_id
 	imeState := ReadImeState(active_win_Id)
 ;	MsgBox % "imeState: " imeState
