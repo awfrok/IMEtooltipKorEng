@@ -61,14 +61,8 @@ engUcaseTooltipLabel := "EN"
 ;~ }
 
 ; Menu, Tray, NoIcon
-; #NoTrayIcon
+#NoTrayIcon
 
-WinGet, active_win_id, ID, A ; read initial state
-;old_win_id := active_win_id
-;MsgBox % "active win ID: " active_win_id
-imeState := ReadImeState(active_win_Id)
-oldImeState := imeState ; store initial state
-;ToolTip, %engTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
 
 InitTrayMenu()
 ;StartWatch()
@@ -76,14 +70,50 @@ InitTrayMenu()
 TooltipColorWhiteOnBlack()
 ;~ ToolTipColor("Black","White") ; background / foreground
 
- 
+
+
+if !LangID := GetKeyboardLanguage()
+{
+	MsgBox, % "GetKeyboardLayout function failed " ErrorLevel
+	return
+}
+
+if (LangID = 0x0409) {
+    ;~ MsgBox, Initial KBD language is EN.
+	oldImeState := 0
+}
+else if (LangID = 0x0412) { 
+    ;~ MsgBox, Initial KBD language is KO.
+    oldImeState := 1 
+}
+return
+
+GetKeyboardLanguage()
+{
+	if !ThreadId := DllCall("user32.dll\GetWindowThreadProcessId", "Ptr", WinActive("A"), "UInt", 0, "UInt")
+		return false
+	
+	if !KBLayout := DllCall("user32.dll\GetKeyboardLayout", "UInt", ThreadId, "UInt")
+		return false
+	
+	return KBLayout & 0xFFFF
+}
+
+
 <+Space::  
-;   MsgBox % "Old win id: " old_win_id
+    ;~ LangID := GetKeyboardLanguage()
+    ;~ if (LangID = 0x0409) {
+    ;~ ;    MsgBox, KBD language is EN.
+        ;~ imeState := 0
+    ;~ }
+    ;~ else if (LangID = 0x0412) { 
+    ;~ ;    MsgBox, KBD language is KO.
+        ;~ imeState := 1 
+    ;~ }
+
     WinGet, active_win_id, ID, A
-;   old_win_id := active_win_id
-;	MsgBox % "active win ID: " active_win_id
 	imeState := ReadImeState(active_win_Id)
-;	MsgBox % "imeState: " imeState
+
 	if(imeState = 1 and oldImeState = 1) { ; if IME is Kor and Kor input mode, change it to English
 		send {LCtrl Down}{LShift Down}{LShift Up}{LCtrl Up}
         oldImeState := 0 ;store Eng state
