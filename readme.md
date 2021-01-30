@@ -16,7 +16,7 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 - MS Windows 10 x64 Eng
 - 윈도우의 기본 영문입력기
-- 날개셋입력기 (http://moogi.new21.org/prg4.html)
+- 날개셋입력기 10.1 (http://moogi.new21.org/prg4.html)
 
 
 
