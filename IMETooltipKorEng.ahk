@@ -71,22 +71,43 @@ TooltipColorWhiteOnBlack()
 ;~ ToolTipColor("Black","White") ; background / foreground
 
 
+global oldLanguageState := 0
+global imeState := 0
+global imeSpecial := 0
 
-if !LangID := GetKeyboardLanguage()
+GetState()
+
+;~ F12::
+    ;~ GetState()
+    ;~ MsgBox % "1. LanguageState: " oldLanguageState " , ImeState: " imeState
+;~ return
+
+GetState()
 {
-	MsgBox, % "GetKeyboardLayout function failed " ErrorLevel
-	return
+    oldLanguageState := GetLanguageState()
+    WinGet, active_win_id, ID, A
+    imeState := ReadImeState(active_win_Id)
 }
 
-if (LangID = 0x0409) {
-    ;~ MsgBox, Initial KBD language is EN.
-	oldImeState := 0
+
+GetLanguageState() ; 0 for Eng, 1 for Kor
+{
+    if !LangID := GetKeyboardLanguage()
+    {
+        MsgBox, % "GetKeyboardLayout function failed " ErrorLevel
+        return
+    }
+;    MsgBox % "LangID: " LangID
+    if (LangID = 0x0409) {
+        ;~ MsgBox, Initial KBD language is EN.
+        languageState := 0
+    }
+    else if (LangID = 0x0412) { 
+        ;~ MsgBox, Initial KBD language is KO.
+        languageState := 1 
+    }
+    return languageState
 }
-else if (LangID = 0x0412) { 
-    ;~ MsgBox, Initial KBD language is KO.
-    oldImeState := 1 
-}
-return
 
 GetKeyboardLanguage()
 {
@@ -100,46 +121,55 @@ GetKeyboardLanguage()
 }
 
 
-<+Space::  
-    ;~ LangID := GetKeyboardLanguage()
-    ;~ if (LangID = 0x0409) {
-    ;~ ;    MsgBox, KBD language is EN.
-        ;~ imeState := 0
-    ;~ }
-    ;~ else if (LangID = 0x0412) { 
-    ;~ ;    MsgBox, KBD language is KO.
-        ;~ imeState := 1 
-    ;~ }
+#MaxThreadsPerHotkey 10
 
+<!Shift:: ; move between Eng language and Kor language
+    GetState()
+    if (oldLanguageState = 0) { ; when Lang is directly changed from Eng to Kor by {shift}+{space}, KOR IME has a special state.
+        imeSpecial := 1
+    }
+    send {LAlt Down}{Shift}{LAlt Up} ; {LAlt Down}{LShift Down}{LShift Up}{LAlt Up}
+return
+
+
+<+Space:: ; move between Eng input mode and Kor input mode
+
+    ;~ if !LangID := GetKeyboardLanguage()
+    ;~ {
+        ;~ MsgBox, % "GetKeyboardLayout function failed " ErrorLevel
+        ;~ return
+    ;~ }
+ 
     WinGet, active_win_id, ID, A
 	imeState := ReadImeState(active_win_Id)
 
-	if(imeState = 1 and oldImeState = 1) { ; if IME is Kor and Kor input mode, change it to English
-		send {LCtrl Down}{LShift Down}{LShift Up}{LCtrl Up}
-        oldImeState := 0 ;store Eng state
+	if(oldLanguageState = 1 and imeState = 1) { ; if Lang is Kor and input mode is Kor, change it to English
+		send {LAlt Down}{LShift Down}{LShift Up}{LAlt Up}
+        oldLanguageState := 0 ;store Eng state
         ToolTip, %engUcaseTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY
 	}
-    else if(imeState = 0 and oldImeState = 1) { ; IME is Kor and Eng input mode, ie, sovle the problem that sometime Nalgaeset returns Eng input mode in Kor IME
+    else if(oldLanguageState = 1 and imeState = 0) { ; if Lang is Kor and input mode Eng, i.e., sovle the problem that sometimes Nalgaeset returns Eng input mode in Kor Language   
         send {LShift Down}{Space}{LShift Up}
-        oldImeState := 1 ; stor Kor state
+        oldLanguageState := 1 ; stor Kor state
         ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY
     }
-	else { ; if IME is English state, change it to Korean and 3 beol input state.
-		send {LCtrl Down}{LShift Down}{LShift Up}{LCtrl Up}{LShift Down}{Space}{LShift Up}
-        oldImeState := 1 ; store Kor state
+    else if(imeSpecial = 1)  { ; if Lang is Kor and input mode Eng, i.e., if Language is changed by {shift}+{space}
+        send {LShift Down}{Space}{LShift Up}
+        oldLanguageState := 1 ; stor Kor state
+        imeSpecial := 0
+        ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY
+    }
+	else { ; if Lang is Eng, change it to Korean and 3 beol input state.
+		send {LAlt Down}{LShift Down}{LShift Up}{LAlt Up}{LShift Down}{Space}{LShift Up}
+        oldLanguageState := 1 ; store Kor state
         ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
 	}
-    sleep, 100
-    ToolTip ; remove tooltip 
-    ;~ Menu, Tray, Icon
-    ;~ sleep, 1000
-    ;~ Menu, Tray, NoIcon
-;	FlashedToolTip()
+    sleep, 500
+    ToolTip ; remove tooltip
 return
 
 ; <<< Initializer
 ; ----------------------------------------------------------------
-
 
 ; ----------------------------------------------------------------
 

@@ -2,6 +2,10 @@
 
 
 
+# Autohotkey script: 날개셋 입력기의 초기 입력 상태를 '빈 스키마'가 아니라 '한글입력상태'로 바꿈.
+
+
+
 ## 설명
 
 Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환할 때, 날개셋입력기의 초기상태를 한글입력상태로 바꿈.
@@ -83,6 +87,8 @@ https://github.com/selfiens/KorTooltip
 ## 외부
 
 http://www.autohotkey.co.kr/cgi/board.php?bo_table=qna&wr_id=20839
+
+https://www.autohotkey.com/boards/viewtopic.php?t=30218
 
 https://iamaman.tistory.com/1805
 
