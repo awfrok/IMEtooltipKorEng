@@ -2,11 +2,11 @@
 
 
 
-# 설명
+## 설명
 
 Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환할 때, 날개셋입력기의 초기상태를 한글입력상태로 바꿈.
 
-### 사용환경과 목표
+#### 사용환경과 목표
 
 - MS Windows 10 x64 Eng
 - 윈도우의 기본 영문입력기
@@ -14,13 +14,13 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 
 
-# 특징
+## 특징
 
 1. (의도) {Lshift}+{space}를 누르면 텍스트 입력 커서 위치에 KO 혹은 EN을 잠깐동안 표시함.
 
 
 
-#  주의사항과 문제점
+## 주의사항과 문제점
 
 1. 시스템 트레이 아이콘을 표시하지 않음.
 2. autohotkey의 A_CaretX와 A_CaretY에 대해, 많은 수의 응용프로그램들이 정확한 위치를 보고하지 않기 때문에, IMETooltip이 표시되는 위치가 정확하지 않은 경우가 많고, 마우스 커서를 따라가기도 함.
@@ -28,7 +28,7 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 
 
-# 사용법
+## 사용법
 
 1. 먼저 MS윈도우10자체의 영문입력기와 한글입력기간에 전환 기능을 {ctrl}+{shift}로 바꾼다.
 
@@ -45,7 +45,7 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 
 
-# 동기
+## 동기
 
 - 필자가 영문 윈도우10 x64에서 드보락 키보드들 사용하고, 한글을 입력하기 위해 날개셋 입력기를 통해서 필자 본인만의 신세벌식 배열을 사용한다.
 
@@ -57,7 +57,7 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 
 
-### {shift}+{space}를 선택한 이유
+#### {shift}+{space}를 선택한 이유
 
 필자가 우분투 20.04 와 리눅스민트 20.1에서 uim과 uim-byeoru를 수정해서 본인만의 신세벌식 배열을 사용하는데, uim의 입력 언어 변경 단축키가 {Lshift}+{space}이기도 하고,
 이 단축키를 아주 오래전부터 한글 입력 상태로 가기 위해서 사용하기도 했다.
@@ -65,18 +65,20 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 
 
-# References
+## References
 
 깃허브 사용법에 아직 익숙하지 않아서 이렇게 기록으로 남긴다.
 
-### 깃허브(source code)
+
+
+## 깃허브(source code)
 
 https://github.com/selfiens/KorTooltip
 (깃허브 사용법을 숙지하면, 여기로부터 fork 하여 branch 를 만들 예정임.)
 
 
 
-### 외부
+## 외부
 
 http://www.autohotkey.co.kr/cgi/board.php?bo_table=qna&wr_id=20839
 
@@ -85,8 +87,6 @@ https://iamaman.tistory.com/1805
 http://xeliz.iptime.org/xeliz/16
 
 https://blog.naver.com/atlkitol/20020058146
-
-
 
 
 
