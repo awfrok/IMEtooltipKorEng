@@ -36,14 +36,14 @@ Autohotkey를 이용해서, {Lshift}+{space}으로 한영 입력 간에 전환�
 
 ## 사용법
 
-1. 먼저 MS윈도우10자체의 영문입력기와 한글입력기간에 전환 기능을 {L Alt}+{shift}로 바꾼다.
+1. 먼저 MS윈도우10자체의 영문입력기와 한글입력기간에 전환 기능을 {LAlt}+{shift}로 바꾼다.
 
    > 1. 윈도우키를 누르고 advanced keyboard settings를 입력한다.
    >    (또는 시작버튼/ settings/ Devices/ Typing/ Advanced keyboard settings를 선택한다.)
    >
    > 2. Input lauguage hot keys 를 선택한다.
    >
-   > 3. Advanced Key Settings 탭/ Hot Keys for input languages/ Between input languages 를 {L Alt}+{shift}로 바꾼다.
+   > 3. Advanced Key Settings 탭/ Hot Keys for input languages/ Between input languages 를 {LAlt}+{shift}로 바꾼다.
 
 2. 내려받은 IMEtooltipKorEng.exe를 실행한다.
 
