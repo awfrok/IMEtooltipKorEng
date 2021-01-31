@@ -27,7 +27,7 @@
 ;~ toolTipFlashIdx := 0
 
 korToolTipLabel := "KO"
-engUcaseTooltipLabel := "EN"
+engTooltipLabel := "EN"
 
 ; preferences
 ;~ IniRead, colorScheme, KorTooltip.ini, preferences, colorScheme, whiteOnBlack
@@ -71,20 +71,29 @@ TooltipColorWhiteOnBlack()
 ;~ ToolTipColor("Black","White") ; background / foreground
 
 
-global oldLanguageState := 0
-global imeState := 0
-global imeSpecial := 0
+global oldLangState := GetLanguageState()
+global imeState := ReadImeState(active_win_Id)
+global imeMode := oldLangState
 
 GetState()
 
-;~ F12::
-    ;~ GetState()
-    ;~ MsgBox % "1. LanguageState: " oldLanguageState " , ImeState: " imeState
+
+;~ ^F11::
+    ;~ send {LShift Down}{Space}{LShift Up}
 ;~ return
+
+^F11::
+    GetState()
+    MsgBox % "Lang: " GetLanguageState() " , ImeMode: " imeMode " , ImeState: " imeState 
+return
+
+^F12::
+    ExitApp
+return
 
 GetState()
 {
-    oldLanguageState := GetLanguageState()
+    oldLangState := GetLanguageState()
     WinGet, active_win_id, ID, A
     imeState := ReadImeState(active_win_Id)
 }
@@ -121,53 +130,82 @@ GetKeyboardLanguage()
 }
 
 
-#MaxThreadsPerHotkey 10
+#MaxThreadsPerHotkey 30
 
 <!Shift:: ; move between Eng language and Kor language
-    GetState()
-    if (oldLanguageState = 0) { ; when Lang is directly changed from Eng to Kor by {shift}+{space}, KOR IME has a special state.
-        imeSpecial := 1
-    }
-    send {LAlt Down}{Shift}{LAlt Up} ; {LAlt Down}{LShift Down}{LShift Up}{LAlt Up}
+    imeMode := 1
+    ChangeLang()
+;    Tooltip, LAltSpace, A_CaretX+20, A_CaretY
+;    Sleep, 1000
+;    Tooltip ; remove
 return
 
 
 <+Space:: ; move between Eng input mode and Kor input mode
-
-    ;~ if !LangID := GetKeyboardLanguage()
-    ;~ {
-        ;~ MsgBox, % "GetKeyboardLayout function failed " ErrorLevel
-        ;~ return
-    ;~ }
+    if !LangID := GetKeyboardLanguage()
+    {
+        MsgBox, % "GetKeyboardLayout function failed " ErrorLevel
+        return
+    }
  
     WinGet, active_win_id, ID, A
 	imeState := ReadImeState(active_win_Id)
-
-	if(oldLanguageState = 1 and imeState = 1) { ; if Lang is Kor and input mode is Kor, change it to English
-		send {LAlt Down}{LShift Down}{LShift Up}{LAlt Up}
-        oldLanguageState := 0 ;store Eng state
-        ToolTip, %engUcaseTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY
-	}
-    else if(oldLanguageState = 1 and imeState = 0) { ; if Lang is Kor and input mode Eng, i.e., sovle the problem that sometimes Nalgaeset returns Eng input mode in Kor Language   
-        send {LShift Down}{Space}{LShift Up}
-        oldLanguageState := 1 ; stor Kor state
-        ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY
+    langState := GetLanguageState()
+    
+    if (langState = 0) { ; if the current lang is Eng, change it to Kor and IME to Kor
+        oldLangState := langState ; store Eng lan state
+        ChangeLangToKor()
+        ChangeImeToKor()
+        ToolTip, %korTooltipLabel% , A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
     }
-    else if(imeSpecial = 1)  { ; if Lang is Kor and input mode Eng, i.e., if Language is changed by {shift}+{space}
-        send {LShift Down}{Space}{LShift Up}
-        oldLanguageState := 1 ; stor Kor state
-        imeSpecial := 0
-        ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY
+    else { ; if the current ling is Kor, has to check ime state and ime mode
+        oldLangState := langState ; store Kor lan state
+        if (imeMode = 0) {
+            if (imeState = 0) {                
+                ChangeImeToKor()
+                ToolTip, %korTooltipLabel% , A_CaretX+20, A_CaretY
+            }
+            else { ; imeState = 1
+                ChangeLangToEng()
+                ToolTip, %engTooltipLabel% , A_CaretX+20, A_CaretY
+            }
+        }
+        else { ; if (imeMode = 1) 
+            ChangeImeToKor()
+            ToolTip, %korTooltipLabel% , A_CaretX+20, A_CaretY
+        }
     }
-	else { ; if Lang is Eng, change it to Korean and 3 beol input state.
-		send {LAlt Down}{LShift Down}{LShift Up}{LAlt Up}{LShift Down}{Space}{LShift Up}
-        oldLanguageState := 1 ; store Kor state
-        ToolTip, %korTooltipLabel%, A_CaretX+20, A_CaretY ; x+toolTipOffsetX, y+toolTipOffsetY ;x+20, y-30
-	}
-    sleep, 500
+    Sleep, 1000 
     ToolTip ; remove tooltip
+    imeMode := 0
 return
 
+
+ChangeLang()
+{
+    send {LAlt Down}{Shift}{LAlt Up} 
+}
+
+ChangeLangToEng()
+{
+    ChangeLang()
+}
+
+ChangeLangToKor()
+{
+    ChangeLang()
+}
+
+ChangeImeToKor()
+{
+    send {LShift Down}{Space}{LShift Up}
+}
+
+ChangeLangAndImeToKor()
+{
+    send {LAlt Down}{LShift}{LAlt Up}{LShift Down}{Space}{LShift Up}
+}
+    
 ; <<< Initializer
 ; ----------------------------------------------------------------
 
@@ -318,7 +356,7 @@ Exit(){
     ;~ }
     ;~ ; OutputDebug, idle %idlePollingCurrentSkip%
 ;~ }
-
+  
 
 
 ;~ ; reset idle polling skip
