@@ -98,7 +98,7 @@ https://blog.naver.com/atlkitol/20020058146
 
 
 
-### 날개셋입력기 제작자인 김용묵이 윈도우 IME에 대해서 설명함
+### 날개셋입력기 제작자인 김용묵이 윈도우 IME와 자신의 날개셋 입력기에 대해 설명함
 
 https://cosmic.mearie.org/f/ngsdoc/ngsm_ntc_ischeme.htm
 
